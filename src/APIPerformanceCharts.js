@@ -25,8 +25,8 @@ class APIPerformanceCharts
 		// Defaults to dark mode background.
 		this._strFontColor = "#ffffff";
 
-		// For mobile you should use half (8).
-		this._nFontSize = 16;
+
+		this._bIsMobile = false;
 
 
 		this._elDivContainer = document.createElement("div");
@@ -123,6 +123,24 @@ class APIPerformanceCharts
 
 		return APIPerformanceCharts.texts["en"];
 	}
+	
+	
+	/**
+	 * @returns {number}
+	 */
+	get isMobile()
+	{
+		return this._bIsMobile;
+	}
+	
+	
+	/**
+	 * @param {boolean} bIsMobile
+	 */
+	set isMobile(bIsMobile)
+	{
+		this._bIsMobile = bIsMobile;
+	}
 
 
 	/**
@@ -130,16 +148,7 @@ class APIPerformanceCharts
 	 */
 	get fontSize()
 	{
-		return this._nFontSize;
-	}
-
-
-	/**
-	 * @param {number} nFontSize
-	 */
-	set fontSize(nFontSize)
-	{
-		this._nFontSize = nFontSize;
+		return this.isMobile ? 8 : 16;
 	}
 
 
@@ -201,6 +210,7 @@ class APIPerformanceCharts
 			callTimeTotalErrors: [], 
 			callTimeAverageErrors: []
 		};
+
 
 		for(const strFunctionName in objPerformanceCounters.metrics)
 		{
@@ -576,11 +586,11 @@ class APIPerformanceCharts
 
 		if(strChartType === "horizontalBar")
 		{
-			this._objChartResources[strChartName].elCanvas.style.height = (arrRows.length * 30 + /*legend*/ (isMobile() ? 20 : 40) * 2) + "px";
+			this._objChartResources[strChartName].elCanvas.style.height = (arrRows.length * 30 + /*legend*/ (this.isMobile ? 20 : 40) * 2) + "px";
 		}
 		else
 		{
-			this._objChartResources[strChartName].elCanvas.style.height = (/*bar height aprox. */ 8 * 40 + /*top legend aprox.*/ parseInt(arrDatasets.length / (isMobile() ? 7 : 3.5) * 40 + (isMobile() ? 20 : 40)) + /*bottom legend*/ (isMobile() ? 20 : 40)) + "px";
+			this._objChartResources[strChartName].elCanvas.style.height = (/*bar height aprox. */ 8 * 40 + /*top legend aprox.*/ parseInt(arrDatasets.length / (this.isMobile ? 7 : 3.5) * 40 + (this.isMobile ? 20 : 40)) + /*bottom legend*/ (this.isMobile ? 20 : 40)) + "px";
 		}
 
 
@@ -598,6 +608,7 @@ class APIPerformanceCharts
 				options: objOptions
 			}
 		);
+		console.log(this._objChartResources[strChartName].elCanvas);
 	}
 
 
@@ -617,16 +628,16 @@ class APIPerformanceCharts
 		// Maybe google-palette isn't loaded on the page (if not using a build system and the google-palette browser version is not loaded).
 		if(palette)
 		{
-			while(arrColors.length < arrRows.length)
+			while(arrColors.length < nColorsCount)
 			{
-				arrColors.push(...palette("mpn65", Math.min(65, arrRows.length - arrColors.length)));
+				arrColors.push(...palette("mpn65", Math.min(65, nColorsCount - arrColors.length)));
 			}
 		}
 		else
 		{
-			while(arrColors.length < arrRows.length)
+			while(arrColors.length < nColorsCount)
 			{
-				arrColors.push(["ff0029","377eb8","66a61e","984ea3","00d2d5","ff7f00","af8d00","7f80cd","b3e900","c42e60","a65628","f781bf","8dd3c7","bebada","fb8072","80b1d3","fdb462","fccde5","bc80bd","ffed6f","c4eaff","cf8c00","1b9e77","d95f02","e7298a","e6ab02","a6761d","0097ff","00d067","000000","252525","525252","737373","969696","bdbdbd","f43600","4ba93b","5779bb","927acc","97ee3f","bf3947","9f5b00","f48758","8caed6","f2b94f","eff26e","e43872","d9b100","9d7a00","698cff","d9d9d9","00d27e","d06800","009f82","c49200","cbe8ff","fecddf","c27eb6","8cd2ce","c4b8d9","f883b0","a49100","f48800","27d0df","a04a9b","ff0029","377eb8","66a61e","984ea3","00d2d5","ff7f00","af8d00","7f80cd","b3e900","c42e60","a65628","f781bf","8dd3c7","bebada","fb8072","80b1d3","fdb462","fccde5","bc80bd","ffed6f","c4eaff","cf8c00","1b9e77","d95f02","e7298a","e6ab02","a6761d","0097ff","00d067","000000","252525","525252","737373","969696","bdbdbd","f43600","4ba93b","5779bb","927acc","97ee3f","bf3947","9f5b00","f48758","8caed6","f2b94f","eff26e","e43872","d9b100","9d7a00","698cff","d9d9d9","00d27e","d06800","009f82","c49200","cbe8ff","fecddf","c27eb6","8cd2ce","c4b8d9","f883b0","a49100","f48800","27d0df","a04a9b","ff0029","377eb8","66a61e","984ea3","00d2d5","ff7f00","af8d00","7f80cd","b3e900","c42e60","a65628","f781bf","8dd3c7","bebada","fb8072","80b1d3","fdb462","fccde5","bc80bd","ffed6f","c4eaff","cf8c00","1b9e77","d95f02","e7298a","e6ab02","a6761d","0097ff","00d067","000000","252525","525252","737373","969696","bdbdbd","f43600","4ba93b","5779bb","927acc","97ee3f","bf3947","9f5b00","f48758","8caed6","f2b94f","eff26e","e43872","d9b100","9d7a00","698cff","d9d9d9","00d27e","d06800","009f82","c49200","cbe8ff","fecddf","c27eb6","8cd2ce","c4b8d9","f883b0","a49100","f48800","27d0df","a04a9b","ff0029","377eb8","66a61e","984ea3","00d2d5","ff7f00","af8d00","7f80cd","b3e900","c42e60","a65628","f781bf","8dd3c7","bebada","fb8072","80b1d3","fdb462","fccde5","bc80bd","ffed6f","c4eaff","cf8c00","1b9e77","d95f02","e7298a","e6ab02","a6761d","0097ff","00d067","000000","252525","525252","737373","969696","bdbdbd","f43600","4ba93b","5779bb","927acc","97ee3f","bf3947","9f5b00","f48758","8caed6","f2b94f","eff26e","e43872","d9b100","9d7a00","698cff","d9d9d9","00d27e","d06800","009f82","c49200","cbe8ff","fecddf","c27eb6","8cd2ce","c4b8d9","f883b0","a49100","f48800","27d0df","a04a9b","ff0029","377eb8","66a61e","984ea3","00d2d5","ff7f00","af8d00","7f80cd","b3e900","c42e60","a65628","f781bf","8dd3c7","bebada","fb8072","80b1d3","fdb462","fccde5","bc80bd","ffed6f","c4eaff","cf8c00","1b9e77","d95f02","e7298a","e6ab02","a6761d","0097ff","00d067","000000","252525","525252","737373","969696","bdbdbd","f43600","4ba93b","5779bb","927acc","97ee3f","bf3947","9f5b00","f48758","8caed6","f2b94f","eff26e","e43872","d9b100","9d7a00","698cff","d9d9d9","00d27e","d06800","009f82","c49200","cbe8ff","fecddf","c27eb6","8cd2ce","c4b8d9","f883b0","a49100","f48800","27d0df","a04a9b","ff0029","377eb8","66a61e","984ea3","00d2d5","ff7f00","af8d00","7f80cd","b3e900","c42e60","a65628","f781bf","8dd3c7","bebada","fb8072","80b1d3","fdb462","fccde5","bc80bd","ffed6f","c4eaff","cf8c00","1b9e77","d95f02","e7298a","e6ab02","a6761d","0097ff","00d067","000000","252525","525252","737373","969696","bdbdbd","f43600","4ba93b","5779bb","927acc","97ee3f","bf3947","9f5b00","f48758","8caed6","f2b94f","eff26e","e43872","d9b100","9d7a00","698cff","d9d9d9","00d27e","d06800","009f82","c49200","cbe8ff","fecddf","c27eb6","8cd2ce","c4b8d9","f883b0","a49100","f48800","27d0df","a04a9b","ff0029","377eb8","66a61e","984ea3","00d2d5","ff7f00","af8d00","7f80cd","b3e900","c42e60","a65628","f781bf","8dd3c7","bebada","fb8072","80b1d3","fdb462","fccde5","bc80bd","ffed6f","c4eaff","cf8c00","1b9e77","d95f02","e7298a","e6ab02","a6761d","0097ff","00d067","000000","252525","525252","737373","969696","bdbdbd","f43600","4ba93b","5779bb","927acc","97ee3f","bf3947","9f5b00","f48758","8caed6","f2b94f","eff26e","e43872","d9b100","9d7a00","698cff","d9d9d9","00d27e","d06800","009f82","c49200","cbe8ff","fecddf","c27eb6","8cd2ce","c4b8d9","f883b0","a49100","f48800","27d0df","a04a9b","ff0029","377eb8","66a61e","984ea3","00d2d5","ff7f00","af8d00","7f80cd","b3e900","c42e60","a65628","f781bf","8dd3c7","bebada","fb8072","80b1d3","fdb462","fccde5","bc80bd","ffed6f","c4eaff","cf8c00","1b9e77","d95f02","e7298a","e6ab02","a6761d","0097ff","00d067","000000","252525","525252","737373","969696","bdbdbd","f43600","4ba93b","5779bb","927acc","97ee3f","bf3947","9f5b00","f48758","8caed6","f2b94f"].slice(0, arrRows.length - arrColors.length));
+				arrColors.push(...["ff0029","377eb8","66a61e","984ea3","00d2d5","ff7f00","af8d00","7f80cd","b3e900","c42e60","a65628","f781bf","8dd3c7","bebada","fb8072","80b1d3","fdb462","fccde5","bc80bd","ffed6f","c4eaff","cf8c00","1b9e77","d95f02","e7298a","e6ab02","a6761d","0097ff","00d067","000000","252525","525252","737373","969696","bdbdbd","f43600","4ba93b","5779bb","927acc","97ee3f","bf3947","9f5b00","f48758","8caed6","f2b94f","eff26e","e43872","d9b100","9d7a00","698cff","d9d9d9","00d27e","d06800","009f82","c49200","cbe8ff","fecddf","c27eb6","8cd2ce","c4b8d9","f883b0","a49100","f48800","27d0df","a04a9b","ff0029","377eb8","66a61e","984ea3","00d2d5","ff7f00","af8d00","7f80cd","b3e900","c42e60","a65628","f781bf","8dd3c7","bebada","fb8072","80b1d3","fdb462","fccde5","bc80bd","ffed6f","c4eaff","cf8c00","1b9e77","d95f02","e7298a","e6ab02","a6761d","0097ff","00d067","000000","252525","525252","737373","969696","bdbdbd","f43600","4ba93b","5779bb","927acc","97ee3f","bf3947","9f5b00","f48758","8caed6","f2b94f","eff26e","e43872","d9b100","9d7a00","698cff","d9d9d9","00d27e","d06800","009f82","c49200","cbe8ff","fecddf","c27eb6","8cd2ce","c4b8d9","f883b0","a49100","f48800","27d0df","a04a9b","ff0029","377eb8","66a61e","984ea3","00d2d5","ff7f00","af8d00","7f80cd","b3e900","c42e60","a65628","f781bf","8dd3c7","bebada","fb8072","80b1d3","fdb462","fccde5","bc80bd","ffed6f","c4eaff","cf8c00","1b9e77","d95f02","e7298a","e6ab02","a6761d","0097ff","00d067","000000","252525","525252","737373","969696","bdbdbd","f43600","4ba93b","5779bb","927acc","97ee3f","bf3947","9f5b00","f48758","8caed6","f2b94f","eff26e","e43872","d9b100","9d7a00","698cff","d9d9d9","00d27e","d06800","009f82","c49200","cbe8ff","fecddf","c27eb6","8cd2ce","c4b8d9","f883b0","a49100","f48800","27d0df","a04a9b","ff0029","377eb8","66a61e","984ea3","00d2d5","ff7f00","af8d00","7f80cd","b3e900","c42e60","a65628","f781bf","8dd3c7","bebada","fb8072","80b1d3","fdb462","fccde5","bc80bd","ffed6f","c4eaff","cf8c00","1b9e77","d95f02","e7298a","e6ab02","a6761d","0097ff","00d067","000000","252525","525252","737373","969696","bdbdbd","f43600","4ba93b","5779bb","927acc","97ee3f","bf3947","9f5b00","f48758","8caed6","f2b94f","eff26e","e43872","d9b100","9d7a00","698cff","d9d9d9","00d27e","d06800","009f82","c49200","cbe8ff","fecddf","c27eb6","8cd2ce","c4b8d9","f883b0","a49100","f48800","27d0df","a04a9b","ff0029","377eb8","66a61e","984ea3","00d2d5","ff7f00","af8d00","7f80cd","b3e900","c42e60","a65628","f781bf","8dd3c7","bebada","fb8072","80b1d3","fdb462","fccde5","bc80bd","ffed6f","c4eaff","cf8c00","1b9e77","d95f02","e7298a","e6ab02","a6761d","0097ff","00d067","000000","252525","525252","737373","969696","bdbdbd","f43600","4ba93b","5779bb","927acc","97ee3f","bf3947","9f5b00","f48758","8caed6","f2b94f","eff26e","e43872","d9b100","9d7a00","698cff","d9d9d9","00d27e","d06800","009f82","c49200","cbe8ff","fecddf","c27eb6","8cd2ce","c4b8d9","f883b0","a49100","f48800","27d0df","a04a9b","ff0029","377eb8","66a61e","984ea3","00d2d5","ff7f00","af8d00","7f80cd","b3e900","c42e60","a65628","f781bf","8dd3c7","bebada","fb8072","80b1d3","fdb462","fccde5","bc80bd","ffed6f","c4eaff","cf8c00","1b9e77","d95f02","e7298a","e6ab02","a6761d","0097ff","00d067","000000","252525","525252","737373","969696","bdbdbd","f43600","4ba93b","5779bb","927acc","97ee3f","bf3947","9f5b00","f48758","8caed6","f2b94f","eff26e","e43872","d9b100","9d7a00","698cff","d9d9d9","00d27e","d06800","009f82","c49200","cbe8ff","fecddf","c27eb6","8cd2ce","c4b8d9","f883b0","a49100","f48800","27d0df","a04a9b","ff0029","377eb8","66a61e","984ea3","00d2d5","ff7f00","af8d00","7f80cd","b3e900","c42e60","a65628","f781bf","8dd3c7","bebada","fb8072","80b1d3","fdb462","fccde5","bc80bd","ffed6f","c4eaff","cf8c00","1b9e77","d95f02","e7298a","e6ab02","a6761d","0097ff","00d067","000000","252525","525252","737373","969696","bdbdbd","f43600","4ba93b","5779bb","927acc","97ee3f","bf3947","9f5b00","f48758","8caed6","f2b94f","eff26e","e43872","d9b100","9d7a00","698cff","d9d9d9","00d27e","d06800","009f82","c49200","cbe8ff","fecddf","c27eb6","8cd2ce","c4b8d9","f883b0","a49100","f48800","27d0df","a04a9b","ff0029","377eb8","66a61e","984ea3","00d2d5","ff7f00","af8d00","7f80cd","b3e900","c42e60","a65628","f781bf","8dd3c7","bebada","fb8072","80b1d3","fdb462","fccde5","bc80bd","ffed6f","c4eaff","cf8c00","1b9e77","d95f02","e7298a","e6ab02","a6761d","0097ff","00d067","000000","252525","525252","737373","969696","bdbdbd","f43600","4ba93b","5779bb","927acc","97ee3f","bf3947","9f5b00","f48758","8caed6","f2b94f"].slice(0, nColorsCount - arrColors.length));
 			}
 		}
 		for(let i = 0; i < arrColors.length; i++)

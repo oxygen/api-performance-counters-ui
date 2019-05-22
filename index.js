@@ -1,3 +1,3 @@
 module.exports = {
-	SQLPerformanceTable: require("./src/SQLPerformanceTable")
+	APIPerformanceCharts: require("./src/APIPerformanceCharts")
 };
