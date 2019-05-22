@@ -40,21 +40,21 @@ See [APIPerformanceCharts.js](./src/APIPerformanceCharts.js) for public methods,
 const APIPerformanceCharts = require("api-performance-counters-ui").APIPerformanceCharts;
 
 
-const APIPerformanceCharts = new APIPerformanceCharts(navigator.language);
+const apiPerformanceCharts = new APIPerformanceCharts(navigator.language);
 
-document.body.appendChild(APIPerformanceCharts.table);
+document.body.appendChild(apiPerformanceCharts.table);
 
 
 setInterval(
 	async() => {
 		const objAPIPerformanceCounters = await yourAPIClient.rpc("rpc.performanceCounters", []);
 
-		APIPerformanceCharts.update(objAPIPerformanceCounters);
+		apiPerformanceCharts.update(objAPIPerformanceCounters);
 	}, 
 	30 * 1000
 );
 
 
 // When the table isn't needed anymore, call the destructor to remove event listeners, references and remove the HTMLTable element from the DOM.
-APIPerformanceCharts.destroy();
+apiPerformanceCharts.destroy();
 ```
