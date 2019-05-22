@@ -1,0 +1,24 @@
+{
+  "name": "api-performance-counters-ui",
+  "version": "1.0.0",
+  "description": "UI to render the data format of jsonrpc-bidirectional/Plugins/Server/PerformanceCounters.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oxygen/api-performance-counters-ui.git"
+  },
+  "author": "oxygenus@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/oxygen/api-performance-counters-ui/issues"
+  },
+  "homepage": "https://github.com/oxygen/api-performance-counters-ui#readme",
+  "dependencies": {
+    "chart.js": "^2.8.0",
+    "chartjs-plugin-datalabels": "^0.6.0",
+    "google-palette": "^1.1.0"
+  }
+}
