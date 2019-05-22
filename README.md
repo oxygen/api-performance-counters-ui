@@ -42,7 +42,7 @@ const APIPerformanceCharts = require("api-performance-counters-ui").APIPerforman
 
 const apiPerformanceCharts = new APIPerformanceCharts(navigator.language);
 
-document.body.appendChild(apiPerformanceCharts.table);
+document.body.appendChild(apiPerformanceCharts.container);
 
 
 setInterval(
