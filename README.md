@@ -1,5 +1,5 @@
 # api-performance-counters-ui
-UI to render the data format of jsonrpc-bidirectional/Plugins/Server/PerformanceCounters.js
+UI to render the data format of [jsonrpc-bidirectional/Plugins/Server/PerformanceCounters.js](https://github.com/bigstepinc/jsonrpc-bidirectional/blob/master/src/Plugins/Server/PerformanceCounters.js)
 
 It looks like this:
 
