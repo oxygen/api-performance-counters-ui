@@ -190,12 +190,25 @@ class APIPerformanceCharts
 
 
 	/**
-	 * @param {Object<functionName:string, metrics:{successCount: number, errorCount: number, successMillisecondsTotal: number, errorMillisecondsTotal: number, successMillisecondsAverage: number, errorMillisecondsAverage: number}>} objPerformanceCounters
+	 * @param {Object<functionName:string, {metrics:{successCount: number, errorCount: number, successMillisecondsTotal: number, errorMillisecondsTotal: number, successMillisecondsAverage: number, errorMillisecondsAverage: number}}>} objPerformanceCounters
 	 * @param {boolean} bClearExisting = false
 	 * @param {boolean} bAnimations = false
 	 */
 	update(objPerformanceCounters, bClearExisting = false, bAnimations = false)
 	{
+		if(typeof objPerformanceCounters !== "object")
+		{
+			throw new Error("objPerformanceCounters needs to be of type object.");
+		}
+		if(typeof objPerformanceCounters.metrics === undefined)
+		{
+			throw new Error("objPerformanceCounters is mising the metrics property.");
+		}
+		if(typeof objPerformanceCounters.metrics !== "object")
+		{
+			throw new Error("objPerformanceCounters.metrics needs to be of type object.");
+		}
+
 		if(bClearExisting)
 		{
 			this.clear();
@@ -608,7 +621,6 @@ class APIPerformanceCharts
 				options: objOptions
 			}
 		);
-		console.log(this._objChartResources[strChartName].elCanvas);
 	}
 
 
