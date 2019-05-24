@@ -55,6 +55,6 @@ setInterval(
 );
 
 
-// When the table isn't needed anymore, call the destructor to remove event listeners, references and remove the HTMLTable element from the DOM.
+// When the charts aren't needed anymore, call the destructor to remove event listeners, references and remove the container HTMLElement from the DOM.
 apiPerformanceCharts.destroy();
 ```
